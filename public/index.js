@@ -153,8 +153,8 @@ function updateDeliveryPrice(){
     var truckerId=d.truckerId;
     console.log(truckerId);
     //find this trucker in the truckers table
-    var correspondingTrucker=truckers.find(function(t){
-      return t.id==truckerId;
+    var correspondingTrucker=truckers.find(function(trucker){
+      return trucker.id==truckerId;
     });
 
     //updating the price of the delivery
@@ -164,28 +164,33 @@ function updateDeliveryPrice(){
 
   
 }
-
+updateDeliveryPrice();
 
 
 //Exercise 2 - Send more, less pay
 function adaptShippingPrice(){
   deliveries.forEach(function(delivery){
     var truckerId=delivery.truckerId;
-    var correspondingTrucker=truckers.find(function(trucker){
+    var tmpTrucker=truckers.find(function(trucker){
       return trucker.id==truckerId;
     });
+    var correspondingTrucker=tmpTrucker;
+
 
     var pvt=correspondingTrucker.pricePerVolume;
 
     if(delivery.volume>25){
-      correspondingTrucker.pricePerVolume=pvt-(pvt*0.5);
+      correspondingTrucker.pricePerVolume=pvt-pvt*0.5;
+      truckers[truckers.findIndex(tmpTrucker)]=correspondingTrucker;
     }
     else if(delivery.volume>10 && delivery.volume<25){
       correspondingTrucker.pricePerVolume=pvt-pvt*0.3;
+      truckers[truckers.findIndex(tmpTrucker)]=correspondingTrucker;
 
     }
     else if(delivery.volume>5 && delivery.volume<10){
       correspondingTrucker.pricePerVolume=pvt-pvt*0.1;
+      truckers[truckers.findIndex(tmpTrucker)]=correspondingTrucker;
     }
 
   });
@@ -291,7 +296,7 @@ function amountActor(){
 }
 
 
-//updateDeliveryPrice();
+updateDeliveryPrice();
 adaptShippingPrice();
 /*updateDeliveryCommission();
 updatePriceIfDeductibleOption();  

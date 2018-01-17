@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 
 //list of truckers
 //useful for ALL 5 exercises
@@ -141,6 +141,30 @@ const actors = [{
   }]
 }];
 
-console.log(truckers);
+
+//Exercise 1 - Euro-Volume
+function updateDeliveryPrice(){
+ 
+  deliveries.forEach(function(d){
+    //find the trucker of the delivery
+    var truckerId=d.truckerId;
+    console.log(truckerId);
+    //find this trucker in the truckers table
+    var correspondingTrucker=truckers.find(function(t){
+      return t.id==truckerId;
+    });
+
+    //updating the price of the delivery
+    d.price=correspondingTrucker.pricePerKm*d.distance+correspondingTrucker.pricePerVolume*d.volume; 
+
+  });
+
+  
+}
+
+updateDeliveryPrice();
+
+
+//console.log(truckers);
 console.log(deliveries);
-console.log(actors);
+//console.log(actors);

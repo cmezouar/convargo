@@ -97,7 +97,7 @@ const actors = [{
     'amount': 0
   }]
 }, {
-  'rentalId': '65203b0a-a864-4dea-81e2-e389515752a8',
+  'deliveryId': '65203b0a-a864-4dea-81e2-e389515752a8',
   'payment': [{
     'who': 'shipper',
     'type': 'debit',
@@ -120,7 +120,7 @@ const actors = [{
     'amount': 0
   }]
 }, {
-  'rentalId': '94dab739-bd93-44c0-9be1-52dd07baa9f6',
+  'deliveryId': '94dab739-bd93-44c0-9be1-52dd07baa9f6',
   'payment': [{
     'who': 'shipper',
     'type': 'debit',
@@ -165,7 +165,7 @@ function updateDeliveryPrice(){
   
 }
 
-updateDeliveryPrice();
+
 
 //Exercise 2 - Send more, less pay
 function adaptShippingPrice(){
@@ -193,7 +193,7 @@ function adaptShippingPrice(){
 updateDeliveryPrice();
 }
 
-adaptShippingPrice();
+
 
 //Exercise 3 - Give me all your money
 function updateDeliveryCommission(){
@@ -208,56 +208,98 @@ function updateDeliveryCommission(){
 )
 }
 
-updateDeliveryCommission();
+
 
 //Exercise 4 - The famous deductible
 
 function updatePriceIfDeductibleOption(){
-  deliveries.forEach(function(d){
-    if(deliveries.deductibleReduction==true){
-      var volumeTaxe=d.volume
-      var correspondingTrucker=truckers.find(function(t){
-        return t.id==truckerId;
+  updateDeliveryCommission();
+  deliveries.forEach(function(delivery){
+    var truckerId=delivery.truckerId;
+    if(delivery.deductibleReduction==true){
+      var volumeTaxe=delivery.volume;
+      var correspondingTrucker=truckers.find(function(trucker){
+        return trucker.id==truckerId;
+        
       });
-  
-      
-      d.price=correspondingTrucker.pricePerKm*d.distance+correspondingTrucker.pricePerVolume*d.volume+volumeTaxe; 
-
+      delivery.price=correspondingTrucker.pricePerKm*d.distance+correspondingTrucker.pricePerVolume*d.volume+200;
+      delivery.commission.convargo=d.commission.convargo+volumeTaxe; 
       adaptShippingPrice();
-      updateDeliveryCommission();
-
+      
+    }
+    else{
+      var correspondingTrucker=truckers.find(function(trucker){
+        return trucker.id==truckerId;
+        
+      });
+      delivery.price=correspondingTrucker.pricePerKm*delivery.distance+correspondingTrucker.pricePerVolume*delivery.volume+1000;
+      adaptShippingPrice();
+      
     }
   }
 )
+     
 }
 
-updatePriceIfDeductibleOption();
+
 
 //Exercise 5 - Pay the actor
 function amountActor(){
-  actors.payment.forEach(function(p){
-  if (p.who==shipper){
+  actors.forEach(function(actor){
+    var deliveryId=actor.deliveryId;
+    var correspondingDelivery=deliveries.find(function(delivery){
+      return delivery.id=deliveryId;
+    });
+
+    actor.payment.forEach(function(payment_item){
+
+      switch(payment_item.who) {
+        case 'shipper':
+	        payment_item.amount=correspondingDelivery.price;
+          break;
+        case 'owner'://trucker 
+	        var commission=correspondingDelivery.price*0.3;
+  	      payment_item.amount=correspondingDelivery.price - commission;          
+          break;
+        case 'insurance':
+          payment_item.amount=correspondingDelivery.commission.insurance;
+          break;
+        case 'treasury':
+          payment_item.amount=correspondingDelivery.commission.treasury;
+          break;
+        case 'convargo':
+          payment_item.amount=correspondingDelivery.commission.convargo+ correspondingDelivery.volume;
+          break;
+
+      	default:
+          break;
+      }
+
+
+
+
+
+      
+    });
 
   }
-  else if(p.who==trucker){
-
-  }
-  else if(p.who==insurance){
-
-  }
-  else if(p.who==treasury){
-
-  }
-  else if(p.who==convargo){
-
-  }
-
-  });
+);
+  
 }
+
+
+updateDeliveryPrice();
+adaptShippingPrice();
+updateDeliveryCommission();
+updatePriceIfDeductibleOption();  
+amountActor();
+
+
+
 
 
 
 
 //console.log(truckers);
-console.log(deliveries);
+//console.log(deliveries);
 //console.log(actors);

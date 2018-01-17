@@ -205,14 +205,26 @@ updateDeliveryCommission();
 
 //Exercise 4 - The famous deductible
 
-function upatePriceIfDeductibleOption(){
-  deliveries.foreach(function(d){
-    if(deliveries.deductibleReduction==True){
+function updatePriceIfDeductibleOption(){
+  deliveries.forEach(function(d){
+    if(deliveries.deductibleReduction==true){
+      var volumeTaxe=d.volume
+      var correspondingTrucker=truckers.find(function(t){
+        return t.id==truckerId;
+      });
+  
       
+      d.price=correspondingTrucker.pricePerKm*d.distance+correspondingTrucker.pricePerVolume*d.volume+volumeTaxe; 
+
+      adaptShippingPrice();
+      updateDeliveryCommission();
+
     }
   }
 )
 }
+
+updatePriceIfDeductibleOption();
 
 
 

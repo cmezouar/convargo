@@ -169,27 +169,30 @@ function updateDeliveryPrice(){
 
 //Exercise 2 - Send more, less pay
 function adaptShippingPrice(){
-  deliveries.forEach(function(d){
-    var truckerId=d.truckerId;
-    var correspondingTrucker=truckers.find(function(t){
-      return t.id==truckerId;
+  deliveries.forEach(function(delivery){
+    var truckerId=delivery.truckerId;
+    var correspondingTrucker=truckers.find(function(trucker){
+      return trucker.id==truckerId;
     });
-    var pvt=correspondingTrucker.pricePerVolume
-    if(d.volume>25){
-    pvt=pvt-pvt*0.5;
+
+    var pvt=correspondingTrucker.pricePerVolume;
+
+    if(delivery.volume>25){
+      correspondingTrucker.pricePerVolume=pvt-(pvt*0.5);
     }
-    else if(d.volume>10){
-      pvt=pvt-pvt*0.3;
+    else if(delivery.volume>10 && delivery.volume<25){
+      correspondingTrucker.pricePerVolume=pvt-pvt*0.3;
 
     }
-    else if(d.volume>5){
-      pvt=pvt-pvt*0.1;
+    else if(delivery.volume>5 && delivery.volume<10){
+      correspondingTrucker.pricePerVolume=pvt-pvt*0.1;
     }
 
-  }
+  });
+  
   
 
-)
+
 updateDeliveryPrice();
 }
 
@@ -288,11 +291,11 @@ function amountActor(){
 }
 
 
-updateDeliveryPrice();
+//updateDeliveryPrice();
 adaptShippingPrice();
-updateDeliveryCommission();
+/*updateDeliveryCommission();
 updatePriceIfDeductibleOption();  
-amountActor();
+amountActor();*/
 
 
 

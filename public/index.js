@@ -170,20 +170,27 @@ updateDeliveryPrice();
 //Exercise 2 - Send more, less pay
 function adaptShippingPrice(){
   deliveries.forEach(function(d){
+    var truckerId=d.truckerId;
+    var correspondingTrucker=truckers.find(function(t){
+      return t.id==truckerId;
+    });
+    var pvt=correspondingTrucker.pricePerVolume
     if(d.volume>25){
-      d.price=d.price-d.price*0.5;
+    pvt=pvt-pvt*0.5;
     }
     else if(d.volume>10){
-      d.price=d.price-d.price*0.3;
+      pvt=pvt-pvt*0.3;
 
     }
     else if(d.volume>5){
-      d.price=d.price-d.price*0.1;
+      pvt=pvt-pvt*0.1;
     }
 
   }
+  
 
 )
+updateDeliveryPrice();
 }
 
 adaptShippingPrice();
@@ -225,6 +232,29 @@ function updatePriceIfDeductibleOption(){
 }
 
 updatePriceIfDeductibleOption();
+
+//Exercise 5 - Pay the actor
+function amountActor(){
+  actors.payment.forEach(function(p){
+  if (p.who==shipper){
+
+  }
+  else if(p.who==trucker){
+
+  }
+  else if(p.who==insurance){
+
+  }
+  else if(p.who==treasury){
+
+  }
+  else if(p.who==convargo){
+
+  }
+
+  });
+}
+
 
 
 

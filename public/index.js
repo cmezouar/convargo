@@ -164,6 +164,28 @@ function updateDeliveryPrice(){
 
 updateDeliveryPrice();
 
+//Exercise 2 - Send more, less pay
+function adaptShippingPrice(){
+  deliveries.forEach(function(d){
+    if(d.volume>25){
+      d.price=d.price-d.price*0.5
+    }
+    else if(d.volume>10){
+      d.price=d.price-d.price*0.3
+
+    }
+    else if(d.volume>5){
+      d.price=d.price-d.price*0.1
+    }
+
+  }
+
+)
+}
+
+adaptShippingPrice();
+
+
 
 //console.log(truckers);
 console.log(deliveries);

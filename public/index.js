@@ -203,6 +203,16 @@ function updateDeliveryCommission(){
 
 updateDeliveryCommission();
 
+//Exercise 4 - The famous deductible
+
+function upatePriceIfDeductibleOption(){
+  deliveries.foreach(function(d){
+    if(deliveries.deductibleReduction==True){
+      
+    }
+  }
+)
+}
 
 
 

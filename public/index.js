@@ -36,6 +36,7 @@ var deliveries = [{
   'price': 0,
   'commission': {
     'insurance': 0,
+    'treasury':0,
     'convargo': 0
   }
 }, {
@@ -50,6 +51,7 @@ var deliveries = [{
   'price': 0,
   'commission': {
     'insurance': 0,
+    'treasury':0,
     'convargo': 0
   }
 }, {
@@ -64,6 +66,7 @@ var deliveries = [{
   'price': 0,
   'commission': {
     'insurance': 0,
+    'treasury':0,
     'convargo': 0
   }
 }];
@@ -168,14 +171,14 @@ updateDeliveryPrice();
 function adaptShippingPrice(){
   deliveries.forEach(function(d){
     if(d.volume>25){
-      d.price=d.price-d.price*0.5
+      d.price=d.price-d.price*0.5;
     }
     else if(d.volume>10){
-      d.price=d.price-d.price*0.3
+      d.price=d.price-d.price*0.3;
 
     }
     else if(d.volume>5){
-      d.price=d.price-d.price*0.1
+      d.price=d.price-d.price*0.1;
     }
 
   }
@@ -184,6 +187,22 @@ function adaptShippingPrice(){
 }
 
 adaptShippingPrice();
+
+//Exercise 3 - Give me all your money
+function updateDeliveryCommission(){
+  deliveries.forEach(function(d){
+   var commission=d.price-d.price*0.3;
+   
+  d.commission.insurance=commission*0.5;
+  d.commission.treasury=1+Math.floor(d.distance/500);
+  d.commission.convargo=commission-(d.commission.insurance+d.commission.treasury);
+
+  }
+)
+}
+
+updateDeliveryCommission();
+
 
 
 

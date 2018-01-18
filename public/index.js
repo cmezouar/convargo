@@ -145,30 +145,35 @@ const actors = [{
 }];
 
 
-//Exercise 1 - Euro-Volume
+/**
+ * Exercise 1 - Euro-Volume
+ */
 function updateDeliveryPrice(){
  
-  deliveries.forEach(function(d){
+  deliveries.forEach(function(delivery){
     //find the trucker of the delivery
-    var truckerId=d.truckerId;
+    var truckerId=delivery.truckerId;
     console.log(truckerId);
-    //find this trucker in the truckers table
+    
     var correspondingTrucker=truckers.find(function(trucker){
       return trucker.id==truckerId;
     });
 
     //updating the price of the delivery
-    d.price=correspondingTrucker.pricePerKm*d.distance+correspondingTrucker.pricePerVolume*d.volume; 
+    delivery.price=correspondingTrucker.pricePerKm*delivery.distance+correspondingTrucker.pricePerVolume*delivery.volume; 
 
   });
 
   
 }
-updateDeliveryPrice();
 
 
-//Exercise 2 - Send more, less pay
+/**
+ * Exercise 2 - Send more, less pay
+ */
+
 function adaptShippingPrice(){
+  console.log("adaptshippingrice is executed");
   deliveries.forEach(function(delivery){
     var truckerId=delivery.truckerId;
     var tmpTrucker=truckers.find(function(trucker){
@@ -180,17 +185,23 @@ function adaptShippingPrice(){
     var pvt=correspondingTrucker.pricePerVolume;
 
     if(delivery.volume>25){
+      console.log("old value",correspondingTrucker.pricePerVolume );
       correspondingTrucker.pricePerVolume=pvt-pvt*0.5;
-      truckers[truckers.findIndex(tmpTrucker)]=correspondingTrucker;
+      truckers[truckers.indexOf(tmpTrucker)]=correspondingTrucker;
+      console.log(">25",truckers[truckers.indexOf(tmpTrucker)] );
     }
     else if(delivery.volume>10 && delivery.volume<25){
+      console.log("old value",correspondingTrucker.pricePerVolume );
       correspondingTrucker.pricePerVolume=pvt-pvt*0.3;
-      truckers[truckers.findIndex(tmpTrucker)]=correspondingTrucker;
+      truckers[truckers.indexOf(tmpTrucker)]=correspondingTrucker;
+      console.log(">10",truckers[truckers.indexOf(tmpTrucker)] );
 
     }
     else if(delivery.volume>5 && delivery.volume<10){
+      console.log("old value",correspondingTrucker.pricePerVolume );
       correspondingTrucker.pricePerVolume=pvt-pvt*0.1;
-      truckers[truckers.findIndex(tmpTrucker)]=correspondingTrucker;
+      truckers[truckers.indexOf(tmpTrucker)]=correspondingTrucker;
+      console.log(">5",truckers[truckers.indexOf(tmpTrucker)] );
     }
 
   });
@@ -203,7 +214,10 @@ updateDeliveryPrice();
 
 
 
-//Exercise 3 - Give me all your money
+
+/**
+ * Exercise 3 - Give me all your money
+ */
 function updateDeliveryCommission(){
   deliveries.forEach(function(d){
    var commission=d.price-d.price*0.3;
@@ -218,7 +232,10 @@ function updateDeliveryCommission(){
 
 
 
-//Exercise 4 - The famous deductible
+/**
+ * Exercise 4 - The famous deductible
+ */
+
 
 function updatePriceIfDeductibleOption(){
   updateDeliveryCommission();
@@ -251,7 +268,10 @@ function updatePriceIfDeductibleOption(){
 
 
 
-//Exercise 5 - Pay the actor
+/**
+ * Exercise 5 - Pay the actor
+ */
+
 function amountActor(){
   actors.forEach(function(actor){
     var deliveryId=actor.deliveryId;

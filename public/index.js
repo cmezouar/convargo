@@ -248,7 +248,7 @@ function updatePriceIfDeductibleOption(){
         return trucker.id==truckerId;
         
       });
-      var newprice=correspondingTrucker.pricePerKm*delivery.distance+correspondingTrucker.pricePerVolume*delivery.volume+200;
+      var newprice=correspondingTrucker.pricePerKm*delivery.distance+correspondingTrucker.pricePerVolume*delivery.volume+volumeTaxe;
       delivery.price=newprice;
      
       delivery.commission.convargo=delivery.commission.convargo+volumeTaxe; 
@@ -260,7 +260,7 @@ function updatePriceIfDeductibleOption(){
         return trucker.id==truckerId;
         
       });
-      var newprice=correspondingTrucker.pricePerKm*delivery.distance+correspondingTrucker.pricePerVolume*delivery.volume+1000;
+      var newprice=correspondingTrucker.pricePerKm*delivery.distance+correspondingTrucker.pricePerVolume*delivery.volume;
       delivery.price=newprice;
       
       
@@ -335,7 +335,7 @@ adaptShippingPrice();
 updateDeliveryCommission();
 
 updatePriceIfDeductibleOption();  
-//amountActor();
+amountActor();
 
 
 
